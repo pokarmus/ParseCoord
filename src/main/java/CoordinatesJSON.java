@@ -10,27 +10,27 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class CoordinatesJSON {
 
     @JsonProperty("lng")
-    private float lng;
+    private double lng;
     @JsonProperty("lat")
-    private float lat;
+    private double lat;
 
     @JsonProperty("lng")
-    public float getLng() {
+    double getLng() {
         return lng;
     }
 
     @JsonProperty("lng")
-    public void setLng(float lon) {
+    public void setLng(double lon) {
         this.lng = lon;
     }
 
     @JsonProperty("lat")
-    public float getLat() {
+    double getLat() {
         return lat;
     }
 
     @JsonProperty("lat")
-    public void setLat(float lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
