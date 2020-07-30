@@ -1,0 +1,65 @@
+{
+    "locations": [
+        {
+            "@type": "location",
+            "id": "1",
+            "coordinates": {
+                "lat": 50.05449832,
+                "lng": 22.00201824
+            }
+        },
+        {
+            "@type": "location",
+            "id": "3",
+            "coordinates": {
+                "lat": 50.03873475,
+                "lng": 21.99927166
+            }
+        },
+        {
+            "@type": "location",
+            "id": "2",
+            "coordinates": {
+                "lat": 50.06750212,
+                "lng": 22.02107266
+            }
+        },
+        {
+            "@type": "location",
+            "id": "4",
+            "coordinates": {
+                "lat": 50.04303442,
+                "lng": 22.04253033
+            }
+        },
+        {
+            "@type": "location",
+            "id": "5",
+            "coordinates": {
+                "lat": 50.04149099,
+                "lng": 22.12097958
+            }
+        }
+    ],
+    "startingPoint": {
+        "location": {
+            "@type": "location",
+            "id": "rzeszów start",
+            "coordinates": {
+                "lat": 50.05053035,
+                "lng": 21.97712734
+            }
+        }
+    },
+    "finalPoint": {
+        "location": {
+            "@type": "location",
+            "id": "rzeszów final",
+            "coordinates": {
+                "lat": 50.02395859,
+                "lng": 22.06450298
+            }
+        }
+    },
+    "score": "-4125800"
+}
