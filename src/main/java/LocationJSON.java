@@ -12,7 +12,7 @@ class LocationJSON {
     @JsonProperty("@type")
     private String type;
     @JsonProperty("id")
-    private int id;
+    private String id;
     @JsonProperty("coordinates")
     private CoordinatesJSON coordinatesJSON;
 
@@ -26,11 +26,11 @@ class LocationJSON {
     }
 
     @JsonProperty("id")
-    public int getId() {
+    public String getId() {
         return id;
     }
     @JsonProperty("id")
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
     @JsonProperty("coordinates")
