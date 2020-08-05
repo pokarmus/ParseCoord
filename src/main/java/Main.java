@@ -32,9 +32,10 @@ public class Main {
     private static void startAction(String[] argsN){
         LocalDataReader reader = new LocalDataReader();
         ArrayList <LocationJSON> list = new ArrayList<>();
+        ArrayList <ConstPositionJSON> constPositions = new ArrayList<>();
 
         try {
-            reader.convertFile(list, reader.readOutputFile(argsN[0]), argsN[1]);
+            reader.convertFile(list, constPositions, reader.readOutputFile(argsN[0]), argsN[1]);
         } catch (IOException e) {
             e.printStackTrace();
         }

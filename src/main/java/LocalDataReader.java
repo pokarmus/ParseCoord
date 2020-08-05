@@ -16,7 +16,7 @@ class LocalDataReader {
     //private final String outputFilePATH = "src\\main\\resources\\komiwojazer_output.csv";
     //private final String cuttedFilePATH = "src\\main\\resources\\komiwojazer_output_cuttted.csv";
 
-    File readOutputFile(String path){
+    File readOutputFile(String path) {
         File file = new File(path);
         FileReader fileReader;// = null;
         ArrayList<String> lines = new ArrayList<>();
@@ -34,8 +34,7 @@ class LocalDataReader {
         return file;
     }
 
-
-    void convertFile(ArrayList<LocationJSON> locations, File file, String cuttedPath) throws IOException {
+    void convertFile(ArrayList<LocationJSON> locations, ArrayList<ConstPositionJSON> constPoints, File file, String cuttedPath) throws IOException {
 
         int skippedLines = 0;
         JsonFactory f = new MappingJsonFactory();
@@ -54,34 +53,49 @@ class LocalDataReader {
                     JsonNode node = jp.readValueAsTree();
                     ObjectMapper mapper = new ObjectMapper();
                     locations.add(mapper.readValue(node.toString(), LocationJSON.class));
+                    //System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mapper.readValue(node.toString(), LocationJSON.class)));
                 }
             } else {
-                skippedLines++;
+                if (skippedLines++ < 2) {
+                    JsonNode node = jp.readValueAsTree();
+                    ObjectMapper mapper = new ObjectMapper();
+                    constPoints.add(mapper.readValue(node.toString(), ConstPositionJSON.class));
+                    //System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mapper.readValue(node.toString(), ConstPositionJSON.class)));
+                }
                 //System.out.println("Error: records should be an array: skipping.");
                 jp.skipChildren();
             }
         }
-        writeLocationToFile(locations, cuttedPath, skippedLines);
+        writeLocationToFile(locations, constPoints, cuttedPath);
     }
 
 
-    private void writeLocationToFile(ArrayList<LocationJSON> locations, String cuttedPath,  int skippedLines){
-        Writer output;
-        File file = new File(cuttedPath);
-        if (file.delete())
-            System.out.println("[LOG] Usunięto stary plik wyjściowy.");
+    private void writeLocationToFile(ArrayList<LocationJSON> locations, ArrayList<ConstPositionJSON> constPoints, String cuttedPath) {
+        try {
+            File file = new File(cuttedPath);
 
-        for (LocationJSON element: locations){
-            String outputLine = element.getCoord().getLat() + "," + element.getCoord().getLng() + "," + element.getId() + "\n";
-            try {
+            if (file.delete())
+                System.out.println("[LOG] Usunięto stary plik wyjściowy.");
 
-                output = new BufferedWriter(new FileWriter(cuttedPath, true));
+            Writer output;
+            output = new BufferedWriter(new FileWriter(cuttedPath, true));
+
+            String write = constPoints.get(0).getLocation().getCoord().getLat() + "," +
+                           constPoints.get(0).getLocation().getCoord().getLng() + "," + constPoints.get(0).getLocation().getId() + "\n";
+            output.append(write);
+
+            for (LocationJSON element : locations) {
+                String outputLine = element.getCoord().getLat() + "," + element.getCoord().getLng() + "," + element.getId() + "\n";
                 output.append(outputLine);
-                output.close();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+            write = constPoints.get(1).getLocation().getCoord().getLat() + "," +
+                    constPoints.get(1).getLocation().getCoord().getLng() + "," + constPoints.get(1).getLocation().getId() + "\n";
+            output.append(write);
+            output.close();
+            System.out.println("[LOG] Wyeksportowano " + locations.size() + " pozycji.\n");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println("[LOG] Wyeksportowano " + locations.size() + " pozycji.\n[LOG] Wykryto " + skippedLines + " niezgodnych węzłów.");
-        }
+
+    }
 }
